@@ -1,0 +1,52 @@
+.Step {
+	display:none;
+}
+
+.StepActive {
+	display: inline-block;
+}
+
+.StepSection {
+	display: table-row;
+  vertical-align: middle;
+  height: 40px;
+}
+
+.StepLabel {
+	vertical-align: middle;
+	margin-left: 10px;
+  display: table-cell;
+}
+
+.StepsList {
+	list-style-type: none;
+	-webkit-margin-before: 0em;
+  -webkit-margin-after: 0em;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  -webkit-padding-start: 0;
+  align-items: center;
+  text-align: center;
+}
+.StepsItem {
+	list-style-type: none;
+	display: inline-block;
+	margin: 0 auto 10px;
+}
+
+.StepCategory {
+	margin-left: 20px;
+}
+
+.mdc-checkbox {
+	margin-right: 5px;
+	margin-bottom: 5px;
+}
+
+.mdc-checkbox__checkmark__path {
+  stroke: #262626 !important;
+}
+
+.mdc-checkbox__mixedmark {
+  background-color: #262626;
+}

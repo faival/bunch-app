@@ -1,0 +1,10 @@
+.Graph {
+	display: inline-block;
+	float:left
+}
+.GraphRate {
+	margin-left: 5px;
+}
+.GraphSection {
+	display: flex
+}
