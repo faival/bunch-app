@@ -135,6 +135,7 @@ class App extends Component {
 
     title = this.props.completed? 'Completed!' : title
     
+
     return (
       <div className="App normalize">
         <div className="App-header">
