@@ -27,9 +27,6 @@ const GraphComponent = ({ dimensions }) => {
 
     const dimensionSeries = dimensionsData.map((dimension,index ) => Object.assign({}, dimension, {color: colors[index]}))
 
-    console.log(`########DIEMENSIONSDATA###########`)
-    console.log(dimensionsData)
-
     const pieMargins = { top: 0, right: 100, bottom: 0, left: 100}
 
     return (
@@ -49,30 +46,7 @@ const GraphComponent = ({ dimensions }) => {
     )
   }
   
-  return (
-      <div>
-      {
-        renderPie(dimensions)
-      }
-      {
-      dimensions.map((dimension, index) => {
-        return (
-          
-            <div className='GraphSection' key={index}>
-              <section className='GraphRate'>
-                {dimension.used}
-              </section>
-              <section className='Graph'>
-                {dimension.name}
-              </section>
-              <section className='GraphRate'>
-                {dimension.selected}
-              </section>
-            </div>
-        )}
-      )}
-      </div>
-    )
+  return renderPie(dimensions)
 }
 
 GraphComponent.propTypes = {

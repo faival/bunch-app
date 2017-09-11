@@ -1,0 +1,31 @@
+{
+  "name": "bunch-app",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://localhost:3001",
+  "dependencies": {
+    "@material/button": "^0.6.0",
+    "@material/checkbox": "^0.4.5",
+    "@material/dialog": "^0.4.3",
+    "@material/form-field": "^0.2.14",
+    "@material/layout-grid": "^0.4.3",
+    "@material/linear-progress": "^0.1.9",
+    "@material/ripple": "^0.8.5",
+    "@material/textfield": "^0.4.0",
+    "@material/typography": "^0.3.0",
+    "classnames": "^2.2.5",
+    "normalize.css": "^7.0.0",
+    "react": "^15.6.1",
+    "react-d3-basic": "^1.6.11",
+    "react-dom": "^15.6.1",
+    "react-redux": "^5.0.6",
+    "react-scripts": "1.0.12",
+    "redux": "^3.7.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

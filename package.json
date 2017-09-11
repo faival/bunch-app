@@ -1,27 +1,28 @@
 {
-  "name": "bunch-app",
-  "version": "0.1.0",
+  "name": "lookup-server",
+  "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "@material/checkbox": "^0.4.5",
-    "@material/form-field": "^0.2.14",
-    "@material/layout-grid": "^0.4.3",
-    "@material/ripple": "^0.8.5",
-    "@material/typography": "^0.3.0",
-    "classnames": "^2.2.5",
+    "babel-core": "6.14.0",
+    "body-parser": "^1.18.0",
+    "express": "4.13.3",
     "firebase": "^4.3.0",
-    "normalize.css": "^7.0.0",
-    "react": "^15.6.1",
-    "react-d3-basic": "^1.6.11",
-    "react-dom": "^15.6.1",
-    "react-redux": "^5.0.6",
-    "react-scripts": "1.0.12",
-    "redux": "^3.7.2"
+    "fs": "0.0.2",
+    "sql.js": "0.3.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "node server.js",
+    "client": "node start-client.js",
+    "dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "concurrently": "3.1.0",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "14.1.0",
+    "eslint-plugin-import": "2.2.0",
+    "eslint-plugin-jsx-a11y": "4.0.0",
+    "eslint-plugin-react": "6.9.0"
   }
 }

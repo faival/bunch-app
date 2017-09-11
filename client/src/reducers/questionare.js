@@ -1,31 +1,28 @@
 import BunchQuestionare from '../model/BunchQuestionare'
-import BunchApi from '../api/BunchApi'
 
+import { pushParticipantData } from '../api/BunchApi'
 
-const bunchApi = new BunchApi()
-
-const dimensionsQuestionsDataSet = bunchApi.fetchData(`getInitialData`)
-const QUESTIONARE_SIZE = 30
-const QUESTIONARE_REPEAT_FACTOR = 30
-const bunchQuestionare = new BunchQuestionare(dimensionsQuestionsDataSet, QUESTIONARE_SIZE, QUESTIONARE_REPEAT_FACTOR)
-
-const bunchQuestionareInitialState = bunchQuestionare.getInitialState(dimensionsQuestionsDataSet)
-
-console.log(bunchQuestionareInitialState)
+const QUESTIONARE_SIZE = 1
+const QUESTIONARE_REPEAT_FACTOR = 2
+const bunchQuestionare = new BunchQuestionare()
+const bunchQuestionareInitialState = {
+  dimensions: [],
+  answers: [],
+  steps: {
+    fetching: false,
+    initialized: false,
+    agreed: false,
+    pushed: false, 
+    completed: false,
+    currentStep: 0,
+    steps: []
+  }
+}
 
 const questionare = (state = bunchQuestionareInitialState, action) => {
   switch (action.type) {
     case `ANSWERED_STEP`:
-
-
       const dimensionName = state.answers[action.selected].dimensionName
-
-
-
-      console.log(dimensionName)
-
-      console.log(state.steps.steps[state.steps.currentStep].questions)
-
       let unselected = -1
 
       for (let question in state.steps.steps[state.steps.currentStep].questions) {
@@ -35,7 +32,7 @@ const questionare = (state = bunchQuestionareInitialState, action) => {
         }
       }
 
-      console.log(unselected)
+      const currentStep = state.steps.currentStep + 1
       
       return Object.assign(
         {},
@@ -48,7 +45,6 @@ const questionare = (state = bunchQuestionareInitialState, action) => {
             dimension,
             { selected: selected }
           )
-          console.log(newDimension)
           return newDimension
         })},
         {answers: state.answers.map((answer, index) => {
@@ -72,7 +68,9 @@ const questionare = (state = bunchQuestionareInitialState, action) => {
         })},
         {steps: Object.assign(
           {},
-          {currentStep: state.steps.currentStep + 1},
+          state.steps,
+          {currentStep: currentStep},
+          {completed: (currentStep > QUESTIONARE_SIZE)},
           {steps: state.steps.steps.map((step, index)=>{
               let stepAnswered = step
               if (index === state.steps.currentStep) {
@@ -84,9 +82,9 @@ const questionare = (state = bunchQuestionareInitialState, action) => {
         )}
        )
 
+    case `GET_NEXT_STEP`: 
     case `GET_INITIAL_STEP`: 
       const questions = bunchQuestionare.getTargetQuestions(state)
-
       const dimensionsUpdated = state.dimensions.map((dimension, index) => {
           if (questions[0].dimension === dimension.id) {
             return Object.assign({}, dimension, {used: dimension.used + 1})
@@ -96,12 +94,7 @@ const questionare = (state = bunchQuestionareInitialState, action) => {
             return Object.assign({}, dimension)  
           }
       })
-      
-      console.log(`dimensionsUpdated:`)
-      console.log(dimensionsUpdated)
-
-
-const stepsUpdated = Object.assign(
+      const stateUpdated = Object.assign(
         {},
         {answers: state.answers.map((answer) => {
           if(answer.id === questions[0].id || answer.id === questions[1].id) {
@@ -116,9 +109,62 @@ const stepsUpdated = Object.assign(
           {steps: [...state.steps.steps, {id: state.currentStep, questions}]}
         )})
 
-console.log(stepsUpdated)
+      return stateUpdated
 
-      return stepsUpdated
+     case `INITIAL_DATA_FETCHED`: 
+
+      const initialState = Object.assign(
+        {}, 
+        {answers: action.answers},
+        {dimensions: action.dimensions},
+        {steps: {
+          initialized: true,
+          completed: false,
+          currentStep: 0,
+          steps: [],
+        }})
+      return initialState
+
+    case `INIT_FETCH_DATA`:
+
+      return Object.assign({}, state, { steps: Object.assign({}, state.steps, { fetching: true }) })
+
+    case `FINISH_FETCH_DATA`:
+
+      return Object.assign({}, state, { steps: Object.assign({}, state.steps, { fetching: false }) })
+
+    case `START_STEPS_QUESTIONARE`:
+
+      const isValidName = (action.name !== ``)
+      const newState = Object.assign(
+        {}, 
+        state, 
+        {
+          steps: {
+            fetching: false,
+            agreed: isValidName,
+            currentStep: 0,
+            name: action.name,
+            steps: state.steps.steps
+          }
+        }
+      )
+
+      return newState
+
+    case `STOP_STEPS_QUESTIONARE`:
+      const stopState = Object.assign({}, 
+        state, 
+        {
+          steps: Object.assign(
+            {},
+            state.steps,
+            {pushed: true},
+            {steps: state.steps.steps}
+          )
+        })
+
+      return stopState
     default:
       return state
   }

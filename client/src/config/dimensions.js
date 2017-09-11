@@ -7,7 +7,5 @@ export const dimensions = {
   Detail: 5
 }
 
-export const dimensionsQuestionsDataSet = require(`./dimensionsQuestionsDataset.json`)
-
 export const dimensionsKeys = Object.keys(dimensions)
 
