@@ -2,7 +2,7 @@ import BunchQuestionare from '../model/BunchQuestionare'
 
 import { pushParticipantData } from '../api/BunchApi'
 
-const QUESTIONARE_SIZE = 1
+const QUESTIONARE_SIZE = 30
 const QUESTIONARE_REPEAT_FACTOR = 2
 const bunchQuestionare = new BunchQuestionare()
 const bunchQuestionareInitialState = {
