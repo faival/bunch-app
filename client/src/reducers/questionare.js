@@ -19,6 +19,16 @@ const bunchQuestionareInitialState = {
   }
 }
 
+
+/**
+NOTES: -- I would provide a pureFuncion for each state reducion e.g. :
+
+getNewStateOfAnswersBasedOnAnswer
+getNewStateOfDimensionsBasedOnAnswer
+getNewStateOfStepsBasedOnAnswer
+
+*/
+
 const questionare = (state = bunchQuestionareInitialState, action) => {
   switch (action.type) {
     case `ANSWERED_STEP`:
