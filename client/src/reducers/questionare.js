@@ -70,7 +70,7 @@ const questionare = (state = bunchQuestionareInitialState, action) => {
           {},
           state.steps,
           {currentStep: currentStep},
-          {completed: (currentStep > QUESTIONARE_SIZE)},
+          {completed: (currentStep > QUESTIONARE_SIZE - 1)},
           {steps: state.steps.steps.map((step, index)=>{
               let stepAnswered = step
               if (index === state.steps.currentStep) {
