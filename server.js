@@ -38,11 +38,12 @@ const USER_EMAIL = 'faival@gmail.com'
 const USER_PASS= 'bunch-app'
 
 firebase.auth().signInWithEmailAndPassword(USER_EMAIL, USER_PASS).then(() => {
-  const ref = firebase.database().ref(`dimensions/Adaptive`);
+  const ref = firebase.database().ref(`dimensions/0`);
   ref.once(`value`)
     .then(function(snapshot) {
-      const adpativeEntry = snapshot.exists();
-      if (!adpativeEntry) {
+      const dimensionEntry = snapshot.exists();
+
+      if (!dimensionEntry) {
 
           const initialState = getInitialState(dimensionsQuestionsDataSet)
 
@@ -170,16 +171,19 @@ app.post(`/questionare/:userId`, (req, res) => {
     step.questions.map(answer => {
       const answerRefUrl = `/answers/${answer.id}`
       const answerRef = firebase.database().ref(answerRefUrl)
-      answerRef.once('value').then(snapshot => {
+      return answerRef.once('value').then(snapshot => {
         const answerRefValue = snapshot.val()
 
         const dimensionRefUrl = `/dimensions/${answer.dimension}`
         const dimensionsRef = firebase.database().ref(dimensionRefUrl)
-        dimensionsRef.once('value').then(snapshot => {
+        return dimensionsRef.once('value').then(snapshot => {
           const dimensionRefValue = snapshot.val()
 
 
           const answerUpdates = {}
+
+          console.log(answerRefValue.selected)
+          console.log(answerRefValue.unselected)
           answerUpdates[answerRefUrl] = Object.assign(
             {}, 
             answerRefValue, 
@@ -189,6 +193,9 @@ app.post(`/questionare/:userId`, (req, res) => {
               unselected: (participantData.selected !== answer.id) ? answerRefValue.unselected + 1 : answerRefValue.unselected,
             }
           )
+
+          console.log(dimensionRefValue.selected)
+          console.log(dimensionRefValue.used)
 
           const dimensionsUpdates = {}
           dimensionsUpdates[dimensionRefUrl] = Object.assign(
@@ -200,8 +207,7 @@ app.post(`/questionare/:userId`, (req, res) => {
             }
           )
 
-          firebase.database().ref().update(answerUpdates)
-          firebase.database().ref().update(dimensionsUpdates)
+          return firebase.database().ref().update(answerUpdates).then(() => firebase.database().ref().update(dimensionsUpdates))
         })
       })
     })

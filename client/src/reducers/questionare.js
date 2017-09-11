@@ -2,7 +2,7 @@ import BunchQuestionare from '../model/BunchQuestionare'
 
 import { pushParticipantData } from '../api/BunchApi'
 
-const QUESTIONARE_SIZE = 30
+const QUESTIONARE_SIZE = 1
 const QUESTIONARE_REPEAT_FACTOR = 2
 const bunchQuestionare = new BunchQuestionare()
 const bunchQuestionareInitialState = {
@@ -21,12 +21,15 @@ const bunchQuestionareInitialState = {
 
 
 /**
-NOTES: -- I would provide a pureFuncion for each state reducion e.g. :
+NOTES: 
+-- I would provide a pure funcion for each state reducions e.g. :
 
 getNewStateOfAnswersBasedOnAnswer
 getNewStateOfDimensionsBasedOnAnswer
 getNewStateOfStepsBasedOnAnswer
 
+
+-- Each key could have it's own reducer by combining them, and the code reside in different files
 */
 
 const questionare = (state = bunchQuestionareInitialState, action) => {
@@ -94,6 +97,11 @@ const questionare = (state = bunchQuestionareInitialState, action) => {
 
     case `GET_NEXT_STEP`: 
     case `GET_INITIAL_STEP`: 
+
+      /**
+      NOTES: `getTargetQuestions` ideally would be a get call to the backend after pushing the last step data
+
+      */
       const questions = bunchQuestionare.getTargetQuestions(state)
       const dimensionsUpdated = state.dimensions.map((dimension, index) => {
           if (questions[0].dimension === dimension.id) {

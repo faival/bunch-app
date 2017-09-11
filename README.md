@@ -27,6 +27,8 @@ This challenge makes use of the following stack:
 
 # Outcome
 
+Didn't have time to accomplish with the TODOS, in general I was very motivated by the code challenge. Please find additional comments along the code.
+
 Additional metadata could be used to greater improve the core logic used to propose questions:
 
 ATM only these fields are taken into account when proposing the next set of questions:
