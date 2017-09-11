@@ -159,7 +159,11 @@ app.get(`/questionare`, (req, res) => {
 app.post(`/questionare/:userId`, (req, res) => {
 
   console.log(`/questionare/:userId`)
-  const participantData = JSON.parse(req.query.data)
+
+
+  console.log(req.body.data)
+
+  const participantData = JSON.parse(req.body.data)
   
   participantData.steps.steps.map( step => {
 

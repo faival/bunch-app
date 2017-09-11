@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 const checkResponse = (response) => {
   if (response.status >= 200 && response.status < 300) {
     return response;
@@ -12,11 +14,11 @@ export const getInitialData = (cb) => {
 
   console.log(`getInitialData`)
 
-  return fetch(`questionare`, {
+  return axios.get(`questionare`, {
     accept: "application/json"
   })
     .then(checkResponse)
-    .then((response) => response.json())
+    .then((response) => response.data)
     .then(cb);
 }
 
@@ -24,11 +26,13 @@ export const pushParticipantData = (cb, state) => {
 
   console.log(`pushParticipantData`)
 
-  return fetch(`questionare/${state.steps.name}?data=${JSON.stringify(state)}`, {
+  return axios.post(`questionare/${state.steps.name}`, {
     accept: "application/json",
+    data: JSON.stringify(state),
     method: 'POST',
+    contentType: 'application/json',
   })
     .then(checkResponse)
-    .then((response) => response.json())
+    .then((response) => response.data)
     .then(cb);
 }
